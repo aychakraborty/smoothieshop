@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Edit Smoothie Details</title>
+</head>
+<body>
+<form action="" id="smoothieForm">
+  <h1>Edit Smoothie Details:</h1>
+  <div>Name: <input type="text" id="name" class="form-control" placeholder="Enter Name..."></div>
+  <div>Description: <input type="text" id="description" class="form-control" placeholder="Enter Description..."></div>
+  <div>Ingredients: <input type="text" id="ingredients" class="form-control" placeholder="Enter Ingredients..."></div>
+  <div>Price: <input type="text" id="price" class="form-control" placeholder="Enter Price..."></div>
+  <div>Calories: <input type="text" id="calories" class="form-control" placeholder="Enter Calories..."></div>
+  <div>Fat: <input type="text" id="fat" class="form-control" placeholder="Enter Fat..."></div>
+  <div>Cholesterol: <input type="text" id="cholesterol" class="form-control" placeholder="Enter Cholesterol..."></div>
+  <div>Sodium: <input type="text" id="sodium" class="form-control" placeholder="Enter Sodium..."></div>
+  <div>Potassium: <input type="text" id="potassium" class="form-control" placeholder="Enter Potassium..."></div>
+  <div>Protein: <input type="text" id="protein" class="form-control" placeholder="Enter Protein..."></div>
+  <div><button type="submit" onClick="updateSmoothieDetails()">Update</button></div>
+</form>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const smoothieValue = urlParams.get('smoothie');
+console.log(smoothieValue);
+var baseurl = "http://localhost:8080/smoothieshop/business/";
+var puturl = "http://localhost:8080/smoothieshop/business/editSmoothieDetails";
+var data = {"basicSmoothieDetails": {}, "nutritionSmoothieDetails": {}};
+function loadSmoothieDetails() {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", baseurl + smoothieValue, true);
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+			var smoothie = JSON.parse(xmlhttp.responseText);
+			data.id = smoothie.id;
+			document.getElementById("name").value = smoothie.name;
+			document.getElementById("description").value = smoothie.basicSmoothieDetails.description;
+			document.getElementById("ingredients").value = smoothie.basicSmoothieDetails.ingredients;
+			document.getElementById("price").value = smoothie.basicSmoothieDetails.price;
+			document.getElementById("calories").value = smoothie.nutritionSmoothieDetails.calories;
+			document.getElementById("fat").value = smoothie.nutritionSmoothieDetails.fat;
+			document.getElementById("cholesterol").value = smoothie.nutritionSmoothieDetails.cholesterol;
+			document.getElementById("sodium").value = smoothie.nutritionSmoothieDetails.sodium;
+			document.getElementById("potassium").value = smoothie.nutritionSmoothieDetails.potassium;
+			document.getElementById("protein").value = smoothie.nutritionSmoothieDetails.protein;
+		}
+	}
+	xmlhttp.send();
+}
+function updateSmoothieDetails() {
+	let form = document.getElementById('smoothieForm');
+	var basicSmoothieDetails = {};
+	var nutritionSmoothieDetails = {};
+	data.name = document.getElementById("name").value;
+	basicSmoothieDetails.description = document.getElementById("description").value;
+	basicSmoothieDetails.ingredients = document.getElementById("ingredients").value;
+	basicSmoothieDetails.price = document.getElementById("price").value;
+	nutritionSmoothieDetails.calories = document.getElementById("calories").value;
+	nutritionSmoothieDetails.fat = document.getElementById("fat").value;
+	nutritionSmoothieDetails.cholesterol = document.getElementById("cholesterol").value;
+	nutritionSmoothieDetails.sodium = document.getElementById("sodium").value;
+	nutritionSmoothieDetails.potassium = document.getElementById("potassium").value;
+	nutritionSmoothieDetails.protein = document.getElementById("protein").value;
+	data.basicSmoothieDetails = basicSmoothieDetails;
+	data.nutritionSmoothieDetails = nutritionSmoothieDetails
+	var json = JSON.stringify(data);
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("PUT", puturl, true);
+	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+	xhr.onload = function () {
+		var users = JSON.parse(xhr.responseText);
+		if (xhr.readyState == 4 && xhr.status == "200") {
+			console.table(users);
+		} else {
+			console.error(users);
+		}
+	}
+	xhr.send(json);
+}
+window.onload = function() {
+	if(smoothieValue === null){
+		window.alert("Smoothie Details Updated Successfully!!");
+		window.location.href = "file:///D:/Work/smoothieshop/src/main/webapp/smoothieList.html?authority=business";	
+	} else {
+		loadSmoothieDetails();
+	}
+}
+</script>
+</body>
+</html>

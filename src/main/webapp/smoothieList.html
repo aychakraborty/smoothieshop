@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>List of All Smoothies</title>
+<script>
+	var baseurl = "http://localhost:8080/smoothieshop/common/smoothies";
+	var deleteurl = "http://localhost:8080/smoothieshop/business/deleteSmoothie/"
+	const urlParams = new URLSearchParams(window.location.search);
+	const authorityValue = urlParams.get('authority');
+	function loadSmoothies() {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", baseurl, true);
+		xmlhttp.onreadystatechange = function() {
+			if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+				var smoothies = JSON.parse(xmlhttp.responseText);
+				var tbltop = "<table> <th> Smoothie Menu: </th>";
+				var main = "";
+				for(i=0; i<smoothies.length; i++) {
+					if(authorityValue === 'business'){
+						main += "<tr><td>"+smoothies[i]+"</td><td><button value='"+smoothies[i]+"' onClick='loadSmoothieDetails(this)'>View</button></td><td><button value='"+smoothies[i]+"' onClick='navigateToEdit(this)'>Edit</button></td><td><button value='"+smoothies[i]+"' onClick='deleteSmoothie(this)'>Delete</button></td></tr>"
+					} else{
+						main += "<tr><td>"+smoothies[i]+"</td></tr>"
+					}
+				}
+				var tblbottom = "</table><div><button onClick='loadAllSmoothieDetails()'>View All Details</button></div>";
+				var tbl = tbltop + main + tblbottom;
+				document.getElementById("smoothieinfo").innerHTML = tbl;
+			}
+		};
+		xmlhttp.send();
+	}
+	function loadSmoothieDetails(element) {
+		window.location.href="file:///D:/Work/smoothieshop/src/main/webapp/smoothieDetails.html?smoothie="+element.value;
+	}
+	function loadAllSmoothieDetails() {
+		window.location.href="file:///D:/Work/smoothieshop/src/main/webapp/allSmoothieDetails.html";
+	}
+	function navigateToEdit(element) {
+		window.location.href="file:///D:/Work/smoothieshop/src/main/webapp/editForm.html?smoothie="+element.value;
+	}
+	function deleteSmoothie(element) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("DELETE", deleteurl + element.value, true);
+		console.log(deleteurl + element.value);
+		xmlhttp.onreadystatechange = function() {
+			console.log(xmlhttp.status);
+			if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+				console.log("Inside Delete")
+			}
+		}
+		xmlhttp.send();
+		window.location.reload();
+	}
+	window.onload = function() {
+		loadSmoothies();
+	}
+</script>
+</head>
+<body>
+	<div id = "smoothieinfo"></div>
+</body>
+</html>

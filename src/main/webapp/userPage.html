@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>User Page</title>
+<script>
+	function redirectToSmoothiePage(element) {
+		window.location.href="file:///D:/Work/smoothieshop/src/main/webapp/smoothieList.html?authority=" +element.value;
+	}
+</script>
+</head>
+<body>
+	<div align="center"><b> User Page </b></div>
+	<div>
+		<button value='user' onClick=redirectToSmoothiePage(this)>Available Smoothies</button>
+	</div>
+</body>
+</html>

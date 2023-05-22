@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Smoothie Details</title>
+<script>
+	const urlParams = new URLSearchParams(window.location.search);
+	const smoothieValue = urlParams.get('smoothie');
+	var baseurl = "http://localhost:8080/smoothieshop/business";
+	function loadAllSmoothieDetails() {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", baseurl + "/" + smoothieValue, true);
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+				var smoothie = JSON.parse(xmlhttp.responseText);
+				var tbltop = "<table> <th> Id </th> <th> Name </th> <th> Description </th> <th> Ingredients </th> <th> Price </th> <th> Calories </th> <th> Fat </th> <th> Cholesterol </th> <th> Sodium </th> <th> Potassium </th> <th> Protein </th>";
+				var main = "";
+				main += "<tr> <td>" + smoothie.id + "</td> <td>"
+						+ smoothie.name + "</td> <td>"
+						+ smoothie.basicSmoothieDetails.description
+						+ "</td> <td>"
+						+ smoothie.basicSmoothieDetails.ingredients
+						+ "</td> <td>" + smoothie.basicSmoothieDetails.price
+						+ "</td> <td>"
+						+ smoothie.nutritionSmoothieDetails.calories
+						+ "</td> <td>" + smoothie.nutritionSmoothieDetails.fat
+						+ "</td> <td>"
+						+ smoothie.nutritionSmoothieDetails.cholesterol
+						+ "</td> <td>"
+						+ smoothie.nutritionSmoothieDetails.sodium
+						+ "</td> <td>"
+						+ smoothie.nutritionSmoothieDetails.potassium
+						+ "</td> <td>"
+						+ smoothie.nutritionSmoothieDetails.protein
+						+ "</td></tr>"
+				var tblbottom = "</table>";
+				var tbl = tbltop + main + tblbottom;
+				document.getElementById("smoothiedetails").innerHTML = tbl;
+			}
+		};
+		xmlhttp.send();
+	}
+	window.onload = function() {
+		loadAllSmoothieDetails();
+	}
+</script>
+</head>
+<body>
+	<div id="smoothiedetails"></div>
+</body>
+</html>
