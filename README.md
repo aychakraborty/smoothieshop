@@ -1,6 +1,7 @@
 # Smoothie Shop Assignment
 Requirements (feel free to enhance the features based on your availability):
-Business Owner:
+
+# Business Owner:
 i.      List all existing Smoothies
 ii.      View a Smoothies details
           Basic details
@@ -8,7 +9,7 @@ ii.      View a Smoothies details
 iii.      Edit Smoothies details
 iv.      Delete Smoothies details
 
-End User:
+# End User:
 i.      List all existing Smoothies
 ii.      Read details of Smoothies
 iii.      Order online
