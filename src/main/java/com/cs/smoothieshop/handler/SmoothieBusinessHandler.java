@@ -31,6 +31,24 @@ public class SmoothieBusinessHandler {
 		return smoothieList.stream().filter(smoothie -> smoothie.getName().equalsIgnoreCase(name)).findAny()
 				.orElse(null);
 	}
+	
+	/**
+	 * This method is used to insert new Smoothie details
+	 * 
+	 * @param smoothie Smoothie
+	 */
+	public void insertSmoothieDetails(Smoothie smoothie) {
+		dao.save(smoothie);
+	}
+	
+	/**
+	 * This method is used to insert multiple Smoothie details
+	 * 
+	 * @param smoothie List<Smoothie>
+	 */
+	public void insertMultipleSmoothieDetails(List<Smoothie> smoothies) {
+		dao.saveAll(smoothies);
+	}
 
 	/**
 	 * This method is used to edit particular Smoothie details

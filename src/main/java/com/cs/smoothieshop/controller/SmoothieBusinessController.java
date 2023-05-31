@@ -1,5 +1,7 @@
 package com.cs.smoothieshop.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +38,30 @@ public class SmoothieBusinessController {
 	@GetMapping("/business/{name}")
 	public ResponseEntity<Smoothie> getSmoothieDetails(@PathVariable("name") String name) {
 		return new ResponseEntity<Smoothie>(handler.getSmoothieDetails(name), HttpStatus.OK);
+	}
+	
+	/**
+	 * This API is used to insert new smoothie details
+	 * 
+	 * @param smoothie Smoothie
+	 * @return ResponseEntity
+	 */
+	@PostMapping("/business/insertSmoothieDetails")
+	public ResponseEntity<Void> insertSmoothieDetails(@RequestBody Smoothie smoothie) {
+		handler.insertSmoothieDetails(smoothie);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	/**
+	 * This API is used to insert multiple smoothie details
+	 * 
+	 * @param smoothies List<Smoothie>
+	 * @return ResponseEntity
+	 */
+	@PostMapping("/business/insertMultipleSmoothieDetails")
+	public ResponseEntity<Void> insertMultipleSmoothieDetails(@RequestBody List<Smoothie> smoothies) {
+		handler.insertMultipleSmoothieDetails(smoothies);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	/**

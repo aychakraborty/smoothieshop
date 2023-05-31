@@ -38,6 +38,26 @@ public class TestSmoothieBusinessHandler {
 	
 	@org.junit.Test
 	@Test
+	public void insertSmoothieDetailsTest() {
+		Smoothie smoothie = new Smoothie();
+		smoothie.setId(1);
+		smoothie.setName("Blueberry Smoothie");
+		handler.insertSmoothieDetails(smoothie);
+	}
+	
+	@org.junit.Test
+	@Test
+	public void insertMultipleSmoothieDetailsTest() {
+		List<Smoothie> smoothieList = new ArrayList<Smoothie>();
+		Smoothie smoothie = new Smoothie();
+		smoothie.setId(1);
+		smoothie.setName("Blueberry Smoothie");
+		smoothieList.add(smoothie);
+		handler.insertMultipleSmoothieDetails(smoothieList);
+	}
+	
+	@org.junit.Test
+	@Test
 	public void editSmoothieDetailsTest() {
 		Mockito.when(dao.existsById(Mockito.anyLong())).thenReturn(true);
 		handler.editSmoothieDetails(new Smoothie());

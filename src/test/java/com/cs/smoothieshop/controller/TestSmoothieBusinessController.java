@@ -2,6 +2,9 @@ package com.cs.smoothieshop.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -50,6 +53,29 @@ public class TestSmoothieBusinessController {
 		Assert.assertEquals(200, status);
 		Assert.assertNotNull(mvcResult.getResponse().getContentAsString());
 	}
+	
+	@org.junit.Test
+	@Test
+	public void insertSmoothieDetailsTest() throws Exception {
+		String uri = "/business/insertSmoothieDetails";
+		Smoothie smoothie = new Smoothie();
+		smoothie.setName("Blueberry Smoothie");
+		String jsonSmoothie = objectMapper.writeValueAsString(smoothie);
+		mvc.perform(MockMvcRequestBuilders.post(uri).content(jsonSmoothie).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
+	}
+	
+	@org.junit.Test
+	@Test
+	public void insertMultipleSmoothieDetailsTest() throws Exception {
+		String uri = "/business/insertMultipleSmoothieDetails";
+		List<Smoothie> smoothies = new ArrayList<>();
+		Smoothie smoothie = new Smoothie();
+		smoothie.setName("Blueberry Smoothie");
+		smoothies.add(smoothie);
+		String jsonSmoothie = objectMapper.writeValueAsString(smoothies);
+		mvc.perform(MockMvcRequestBuilders.post(uri).content(jsonSmoothie).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
+	}
+		
 	
 	@org.junit.Test
 	@Test
